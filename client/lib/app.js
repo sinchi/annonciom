@@ -1,0 +1,1 @@
+angular.module('annoncio', ['angular-meteor', 'ui.router']);
