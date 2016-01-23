@@ -23,7 +23,7 @@
 	        <button class="btn btn-default" type="button">Go!</button>
 	      </span> -->
 	      <label>Rechercher:</label>
-	      <input type="text" ng-model="annoncesList.searchText" class="form-control" placeholder="titre / description">
+	      <input type="text" ng-model="annoncesList.searchText" class="form-control" placeholder="Titre">
 	    </div><!-- /input-group -->
 		
 
@@ -40,7 +40,7 @@
 		</ol>			
 		<ul class="list-group">
 			<li class="list-group-item" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
-				<p>Name: {{ annonce.name }}</p>
+				<p>Titre: {{ annonce.name }}</p>
 				<p>Description : {{ annonce.description }}</p>
 				<p ng-show="{{ annonce.price }}">Prix: {{ annonce.price }} DH</p>
 				<p ng-show="{{ annonce.published }}">Date de publication: {{ annonce.published | date : 'medium' }} </p>

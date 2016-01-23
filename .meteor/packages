@@ -23,3 +23,6 @@ tmeasday:publish-counts
 accounts-ui
 accounts-password
 dotansimha:accounts-ui-angular
+cfs:standard-packages
+cfs:gridfs
+danialfarid:ng-file-upload

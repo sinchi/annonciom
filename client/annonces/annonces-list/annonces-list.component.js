@@ -25,7 +25,8 @@ angular.module('annoncio').directive('annoncesList',function(){
 					return Cities.find({});
 				}
 			});
-			
+
+			this.subscribe('images');
 			this.subscribe('categories');
 			this.subscribe('cities');
 			this.subscribe('annonces', () => {

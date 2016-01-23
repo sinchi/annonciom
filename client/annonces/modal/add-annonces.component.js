@@ -1,7 +1,7 @@
 angular.module('annoncio').directive('addAnnonceModal', function(){
 	return {
 		restrict: 'E',
-		templateUrl: "client/annonces/modal/addAnnonces.html",
+		templateUrl: "client/annonces/modal/add-annonces.html",
 		controllerAs: 'addModalAnnonce',
 		controller: function($scope, $stateParams, $reactive, $modal, $rootScope){
 
@@ -50,6 +50,11 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 
 			this.getParentOfCategory = (cat) => {				
 				return Categories.findOne({name: cat});
+			};
+
+			this.addImages = (files) => {
+				if(files.length > 0)
+					Images.insert(files[0]);
 			};
 		}
 	}
