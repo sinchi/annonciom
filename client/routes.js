@@ -9,5 +9,5 @@ angular.module('annoncio').config(function($urlRouterProvider, $stateProvider, $
 
 	$urlRouterProvider.otherwise('/annonces');
 }).run(function($rootScope, $state){
-	 
+	 $rootScope.showSuccessAlert = false;
 });

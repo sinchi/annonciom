@@ -1,10 +1,32 @@
 <div class="row">
 	<div class="col-md-3">
+		<label>
+			Categorie: 
+		</label>
 		<select ng-model="annoncesList.category" class="form-control">
+			<option value="">Tous</option>
 			<option value="{{ cat.name }}" ng-repeat="cat in annoncesList.categories">
 				{{cat.name}}
 			</option>
 		</select>
+		<label>
+			Ville:
+		</label>
+		<select ng-model="annoncesList.city" class="form-control">
+			<option value="">Maroc</option>
+			<option value="{{ city._id }}" ng-repeat="city in annoncesList.cities">
+				{{city.name | uppercase}}
+			</option>
+		</select>
+		 <div class="input-group">
+	     <!--  <span class="input-group-btn">
+	        <button class="btn btn-default" type="button">Go!</button>
+	      </span> -->
+	      <label>Rechercher:</label>
+	      <input type="text" ng-model="annoncesList.searchText" class="form-control" placeholder="titre / description">
+	    </div><!-- /input-group -->
+		
+
 		<!-- <div class="checkbox" ng-repeat="cat in annoncesList.categories">
 	      <label>
 	        <input ng-model="annoncesList.addCategorieToSearch(cat.name)" type="checkbox" value="{{ cat.name }}">{{ cat.name }}
@@ -17,25 +39,32 @@
 			<li><a href="#">{{ annoncesList.category }}</a></li>		  
 		</ol>			
 		<ul class="list-group">
-			<li class="list-group-item" ng-repeat="annonce in annoncesList.annonces">
+			<li class="list-group-item" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
 				<p>Name: {{ annonce.name }}</p>
 				<p>Description : {{ annonce.description }}</p>
+				<p ng-show="{{ annonce.price }}">Prix: {{ annonce.price }} DH</p>
+				<p ng-show="{{ annonce.published }}">Date de publication: {{ annonce.published | date : 'medium' }} </p>
 				 <span class="badge">{{ annonce.parent }}</span>
 				Catégorie:				
 			</li>
-		</ul>
-		<button id="pop" type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" ng-click="annoncesList.popoverit()">Click to toggle popover</button>
-
+		</ul> 
+		<!-- <button id="pop" type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" ng-click="annoncesList.popoverit()">Click to toggle popover</button> -->
+		
+		<dir-pagination-controls on-page-change="annoncesList.changePage(newPageNumber)"></dir-pagination-controls>
+		
 	</div>
 	<div class="row">
 	  <div class="col-xs-6 col-md-3">
-	    <a href="#" class="thumbnail">
+	   <!--  <a href="#" class="thumbnail">
 	      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE3MSAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTUyNjZjNzIwNzEgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTI2NmM3MjA3MSI+PHJlY3Qgd2lkdGg9IjE3MSIgaGVpZ2h0PSIxODAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI2MSIgeT0iOTQuOCI+MTcxeDE4MDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
-	    </a>
+	    </a> -->
+	   <!-- <uib-alert  type="success" ng-click="$rootScope.showSuccessAlert=false" ng-show="showSuccessAlert">L'annonce est publié avec success !</uib-alert> -->
+	    <button class="btn btn-success" ng-click="annoncesList.openModal()">Publier une annonce</button>
 	  </div>
 
 	</div>
+	
 </div>
 
 
-selected : {{ annoncesList.categorie }}
+<!-- selected : {{ annoncesList.categorie }} -->

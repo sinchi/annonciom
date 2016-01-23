@@ -1,1 +1,1 @@
-angular.module('annoncio', ['angular-meteor', 'ui.router']);
+angular.module('annoncio', ['angular-meteor', 'ui.router','ui.bootstrap', 'angularUtils.directives.dirPagination', 'accounts.ui']);

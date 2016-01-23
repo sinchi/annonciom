@@ -1,0 +1,76 @@
+<div class="modal-header">
+   <h3 class="modal-title">Publier une nouvelle annonce !</h3>
+</div>
+<div class="modal-body">
+
+  <form>
+    <div class="form-group">
+      <label for="name">Titre</label>
+      <input type="text" class="form-control" placeholder="titre de l'annonce" ng-model="addModalAnnonce.newAnnonce.name">
+    </div>     
+
+    <div class="form-group">
+      <label for="category">Categorie :</label>
+      <select name="category" ng-model="addModalAnnonce.category" class="form-control">
+        <option value="{{ cat.name }}" ng-repeat="cat in addModalAnnonce.categories">
+          {{cat.name}}
+        </option>
+    </select>
+    </div>
+    <div class="form-group">
+      <label for="city">Ville :</label>
+       <select name="city" ng-model="addModalAnnonce.city" class="form-control">
+        <option value="{{ city._id }}" ng-repeat="city in addModalAnnonce.cities">
+          {{city.name | uppercase}}
+        </option>
+      </select>
+    </div>
+    
+    <!--  <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div> -->
+    <div class="form-group">
+      <label for="exampleInputFile">File input</label>
+      <input type="file" id="exampleInputFile">
+      <p class="help-block">Example block-level help text here.</p>
+    </div>
+  <!--  <div class="checkbox">
+      <label>
+        <input type="checkbox"> Check me out
+      </label>
+    </div> -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" name="description" ng-model="addModalAnnonce.newAnnonce.description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="sr-only" for="price">Amount (in dollars)</label>
+      <div class="input-group">
+        <div class="input-group-addon">DH</div>
+        <input type="text" ng-model="addModalAnnonce.newAnnonce.price" class="form-control" id="price" placeholder="Prix">
+        <div class="input-group-addon">.00</div>
+      </div>
+    </div>
+    <!-- <button type="submit" class="btn btn-default">Publier !</button> -->
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="addModalAnnonce.ok()">publier</button>
+  <button class="btn btn-warning" type="button" ng-click="addModalAnnonce.cancel()">Annuler</button>
+</div>
+              
+
+
+
+<!-- 
+              "parent" : "Telephone",
+    "ancestors" : [ 
+        "Informatique Et Multimedia", 
+        "Telephone"
+    ],
+    "name" : "Galaxy s3",
+    "description" : "ba9i new jdid",
+    "city" : "ybPZJW9y5vZfsWkwq" -->
