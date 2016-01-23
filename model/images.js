@@ -1,10 +1,10 @@
-Images = new FS.Collection('images', {
-	stores:[
-		new FS.Store.GridFS('original')
+Images = new FS.Collection("images", {
+	stores: [
+		new FS.Store.GridFS("original")
 	],
-	filter:{
+	filter: {
 		allow: {
-			contentTypes: ['images/*']
+			contentTypes: ['image/*']
 		}
 	}
 });

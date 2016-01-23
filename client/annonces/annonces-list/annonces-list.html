@@ -42,8 +42,8 @@
 			<li class="list-group-item" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
 				<p>Titre: {{ annonce.name }}</p>
 				<p>Description : {{ annonce.description }}</p>
-				<p ng-show="{{ annonce.price }}">Prix: {{ annonce.price }} DH</p>
-				<p ng-show="{{ annonce.published }}">Date de publication: {{ annonce.published | date : 'medium' }} </p>
+				<p>Prix: {{ annonce.price }} DH</p>
+				<p>Date de publication: {{ annonce.published | date : 'medium' }} </p>
 				 <span class="badge">{{ annonce.parent }}</span>
 				Catégorie:				
 			</li>

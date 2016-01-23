@@ -11,18 +11,23 @@ angular.module('annoncio').directive('annoncesList',function(){
 			this.searchText = "";
 			this.perPage = '3';
 			this.page = "1";
+			this.sort = {
+				published: -1
+			};
 		
 
 			this.helpers({
 				annonces: () => {
-
-					return Annonces.find({}, {sort: {published: -1}});					
+					return Annonces.find({}, {sort: this.getReactively('sort') });					
 				},
 				categories: () => {
 					return Categories.find({'parent': 'Informatique Et Multimedia'} || '');
 				},
 				cities: () => {
 					return Cities.find({});
+				},
+				images: () => {
+					return Images.find({});
 				}
 			});
 
@@ -33,7 +38,8 @@ angular.module('annoncio').directive('annoncesList',function(){
 				return [
 					{
 						limit: parseInt(this.perPage),
-						skip: parseInt(this.getReactively('page') - 1) * this.perPage						
+						skip: parseInt(this.getReactively('page') - 1) * this.perPage,
+						sort: this.getReactively('sort')				
 					},
 					this.getReactively('searchText'),
 					this.getReactively('category'),
