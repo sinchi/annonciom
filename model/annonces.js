@@ -7,12 +7,34 @@ Annonces.allow({
 	},
 
 	update: function(userId, annonce, fields, modifier){
-		return userId && annonces.owner === userId; 
+		return userId && annonce.owner === userId; 
 	},
 
 	remove: function(userId , annonce){
-		return userId && annonces.owner === userId;
+		return userId && annonce.owner === userId;
 	}
 
 });
 
+// var Schemas = {};
+
+// Schemas.Annonce = new SimpleSchema({
+// 	comments:{
+// 		type: [String]
+// 	}
+// });
+
+// Annonces.attachSchema(Schemas.Annonce);
+
+
+
+// Meteor.methods({
+// 	addComment: function(annonceId, commentId){
+// 		// check(annonceId, String);
+// 		// check(commentId, String);
+// 		Annonces.update(annonceId , {
+// 			$addToSet: {comments : commentId }
+// 		});
+
+// 	}
+// });

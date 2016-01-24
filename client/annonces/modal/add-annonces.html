@@ -32,7 +32,7 @@
     </div> -->
     <div class="form-group">
       <h3>Ajouter des photos :</h3>
-        <div ngf-drop ngf-select 
+        <div ngf-drop ngf-select="addModalAnnonce.addImages($files)"
              ngf-change="addModalAnnonce.addImages($files)" 
              ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}" class="drop-box"
              ngf-multiple="false" ngf-allow-dir="false" ngf-accept="'image/*'"
@@ -42,16 +42,18 @@
                 <strong>OR</strong>
               </div>
               Glisser et desposer votre photo içi
+              <div class="form-group">
+                <h2>Apercu</h2>
+                <div ng-repeat="image in addModalAnnonce.newAnnonce.images">
+                  <a class="thumbnail col-md-3" href="">
+                    <img  ng-src="{{addModalAnnonce.getImage(image).url() }}" />   
+                  </a>       
+                </div>          
+                
+              </div>
         </div>
-        <div class="form-group">
-          <h2>Apercu</h2>
-          <div ng-repeat="image in addModalAnnonce.newAnnonce.images">
-            <a class="thumbnail col-md-3" href="">
-              <img  ng-src="{{addModalAnnonce.getImage(image).url() }}" />   
-            </a>       
-          </div>          
-          
-        </div>
+        
+        
     </div>
   <!--  <div class="checkbox">
       <label>
@@ -92,3 +94,5 @@
     "name" : "Galaxy s3",
     "description" : "ba9i new jdid",
     "city" : "ybPZJW9y5vZfsWkwq" -->
+
+    

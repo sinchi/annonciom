@@ -7,14 +7,17 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 
 			$reactive(this).attach($scope);
 
-			$scope.$on('modal.closing', (event, reason , closed) => {
-				console.log('modal is closed');
-			});
+			// $scope.$on('modal.closing', (event, reason , closed) => {
+			// 	if(this.newAnnonce.images && this.newAnnonce.images.length > 0){
+			// 		for(var i=0; i<this.newAnnonce.images.length; i++){
+			// 			Images.remove({_id: this.newAnnonce.images[i]});
+			// 		}
+			// 	}
+			// });
 
 			this.newAnnonce = {};
 			this.category = "";
-			this.city = "";			
-			
+			this.city = "";							
 
 			this.helpers({
 				categories: () => {
@@ -35,7 +38,7 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 				this.newAnnonce.ancestors = [ancestor, this.getReactively('category')];
 				this.newAnnonce.city = this.getReactively('city');
 				this.newAnnonce.parent = this.getReactively('category');
-				this.newAnnonce.published = new Date();
+				this.newAnnonce.published = new Date();				
 				this.newAnnonce.owner = Meteor.userId();
 				this.newAnnonce.public = true;
 
@@ -49,12 +52,12 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 				$scope.$close();
 			};
 
-			this.cancel = () => {
+			this.cancel = () => {	
 				if(this.newAnnonce.images && this.newAnnonce.images.length > 0){
 					for(var i=0; i<this.newAnnonce.images.length; i++){
 						Images.remove({_id: this.newAnnonce.images[i]});
 					}
-				}
+				}			
 				$scope.$close();
 			};
 
@@ -63,7 +66,7 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 			};			
 
 			this.addImages = (files) => {
-				if(files.length > 0){
+				if(files && files.length > 0){
 					Images.insert(files[0], (err, image) => {
 						
 							if(!this.newAnnonce.images){

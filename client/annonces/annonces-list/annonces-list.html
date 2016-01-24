@@ -34,12 +34,85 @@
     	</div> -->
 	</div>
 	<div class="col-md-6">	
-		<ol class="breadcrumb">
+		<!-- <ol class="breadcrumb">
 			<li><a href="#">{{ annoncesList.getParentOfCategory(annoncesList.category).parent }}</a></li>
 			<li><a href="#">{{ annoncesList.category }}</a></li>		  
-		</ol>			
-		<ul class="list-group">
+		</ol> -->	
+
+
+			
+			 <!--  <div dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
+			    <div class="thumbnail" >
+			      <img width="242" height="200" ng-src="{{ annoncesList.getImage(annonce.images[0]).url() }}">
+			      <div class="caption">
+			        <h3>{{ annonce.name }}</h3>
+			        <p>{{ annonce.description }}</p>
+			        <p><a href="#" class="btn btn-primary" role="button">Consulter</a> <a href="#" class="btn btn-default" role="button">Modifier</a></p>
+			      </div>
+			    </div>
+			  </div> -->
+			<div class="row"  dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
+				  <div class="col-md-2">
+				  	<!-- {{annoncesList.getAnnonceCreator(annonce.owner).emails[0].address}}	  		 -->
+				  	<span class="glyphicon glyphicon-user"></span>
+				  	
+				  </div>
+				  <div class="col-md-10">					  
+					    <div class="panel panel-primary" >
+							<div class="panel-heading">								
+								<h3 class="panel-title"><span class="glyphicon glyphicon-bullhorn"></span> <span></span>{{ annonce.name }}</h3>									
+							</div>
+							 <div class="panel-body">
+							  	<div class="thumbnail col-md-4" ng-repeat="img in annonce.images">				
+							  		<img ng-src="{{ annoncesList.getImage(img).url() }}">			
+							  	</div>				   
+							 </div>
+							 <div class="panel-footer">
+							  	 <p>{{ annonce.description }}</p>
+							  	<!-- <p><a href="#" class="btn btn-primary" role="button">Consulter</a> <a href="#" class="btn btn-default" role="button">Modifier</a></p> -->
+							 </div>							 
+						</div>
+						<!-- <div class="well" ng-repeat="comment in annoncesList.getCommentsByAnnonceId(annonce._id)">
+							{{ comment }}
+						</div> -->
+						<form>
+							<div class="form-group">      
+						      <textarea class="form-control" id="{{ annonce._id }}"  placeholder="Saisir un commentaire"></textarea>            
+						    </div>
+						    <div class="form-group">
+						    	<button class="btn btn-primary" ng-click="annoncesList.addComment(annonce._id)">commenter</button>
+						    </div> 		
+						</form>
+				  </div>				 
+			  </div>
+
+
+			 <!--  <div class="media" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
+				  <div class="media-left media-middle thumbnail">
+				    <a href="#">
+				      <img width="92" height="50" ng-src="{{ annoncesList.getImage(annonce.images[0]).url() }}">
+				    </a>
+				  </div>
+				  <div class="media-body">
+				    <h4 class="media-heading">{{ annonce.name }}</h4>
+				    {{ annonce.description }}
+				  </div>
+				</div>
+ -->
+			
+
+
+			
+
+
+
+
+
+		<!-- <ul class="list-group">
 			<li class="list-group-item" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
+				<div class="thumbnail col-md-3">
+					<img ng-src="{{ annoncesList.getImage(annonce.images[0]).url() }}" />
+				</div>
 				<p>Titre: {{ annonce.name }}</p>
 				<p>Description : {{ annonce.description }}</p>
 				<p>Prix: {{ annonce.price }} DH</p>
@@ -47,13 +120,13 @@
 				 <span class="badge">{{ annonce.parent }}</span>
 				Catégorie:				
 			</li>
-		</ul> 
+		</ul>  -->
 		<!-- <button id="pop" type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?" ng-click="annoncesList.popoverit()">Click to toggle popover</button> -->
 		
 		<dir-pagination-controls on-page-change="annoncesList.changePage(newPageNumber)"></dir-pagination-controls>
 		
 	</div>
-	<div class="row">
+	
 	  <div class="col-xs-6 col-md-3">
 	   <!--  <a href="#" class="thumbnail">
 	      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE3MSAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTUyNjZjNzIwNzEgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTI2NmM3MjA3MSI+PHJlY3Qgd2lkdGg9IjE3MSIgaGVpZ2h0PSIxODAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI2MSIgeT0iOTQuOCI+MTcxeDE4MDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" alt="...">
@@ -61,8 +134,6 @@
 	   <!-- <uib-alert  type="success" ng-click="$rootScope.showSuccessAlert=false" ng-show="showSuccessAlert">L'annonce est publié avec success !</uib-alert> -->
 	    <button class="btn btn-success" ng-click="annoncesList.openModal()">Publier une annonce</button>
 	  </div>
-
-	</div>
 	
 </div>
 
