@@ -29,26 +29,44 @@ Meteor.methods({
 		Comments.insert(comment, (err, commentId) => {
 			Annonces.update(annonceId , {
 				$addToSet: { comments : commentId }
-			});	
+			});
+
 			let notification = {};
 
 			notification.annonceId = annonceId;
 			notification.commentId = commentId;	
+			notification.vu = false;
 
-			let annonce = Annonces.findOne(annonceId);
-			
+			let annonce = Annonces.findOne(annonceId);			
 
+			Notifications.insert(notification, (err, notificationId) => {	
 
-			Notifications.insert(notification, (err, notificationId) => {				
-				_.filter(annonce.comments, (commentId) => {
-					let userId = getCommentOwner(commentId);
-					if(userId && userId !== this.userId){
-							Meteor.users.update(userId, {
-							$addToSet: {notifications: notificationId}
+						let exists = false;						
+						_.filter(annonce.comments, (commentId) => {
+							let userId = getCommentOwner(commentId);
+							if(userId === annonce.owner){
+								exists = true;
+								return;
+							}								
 						});
-					}
-					
-				});
+
+						if(!exists){
+							Meteor.users.update(annonce.owner, {
+								$addToSet: {notifications: notificationId}
+							});
+						}
+
+
+				
+					_.filter(annonce.comments, (commentId) => {
+						let userId = getCommentOwner(commentId);
+						if(userId && userId !== this.userId){
+								Meteor.users.update(userId, {
+								$addToSet: {notifications: notificationId}
+							});
+						}					
+					});
+									
 			});				
 		});	
 	}

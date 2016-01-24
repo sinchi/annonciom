@@ -37,13 +37,13 @@ angular.module('annoncio').directive('annoncesList',function(){
 					return Meteor.userId();
 				},
 				notifications: () => {
+
 					let wrapNotifications = [];
 					let user = Meteor.users.findOne(Meteor.userId());
-
 					if(user && user !== null){
 							let notificationsIds =  user.notifications;
 							_.filter(notificationsIds, (notificationId) => {
-								let notification = Notifications.findOne(notificationId);
+								let notification = Notifications.findOne({_id: notificationId, vu: false});
 								if(notification && notification !== null){
 									let comment = Comments.findOne(notification.commentId);
 									let annonce = Annonces.findOne(notification.annonceId);
@@ -154,7 +154,11 @@ angular.module('annoncio').directive('annoncesList',function(){
 
 			this.getCommentById = (commentId) => {
 				return Comments.findOne({_id: commentId});
-			};			
+			};	
+
+			this.vu = () => {
+
+			}
  			
 		}
 	}
