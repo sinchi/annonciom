@@ -1,4 +1,4 @@
-<div class="row">
+
 	<div class="col-md-3">
 		<label>
 			Categorie: 
@@ -32,6 +32,16 @@
 	        <input ng-model="annoncesList.addCategorieToSearch(cat.name)" type="checkbox" value="{{ cat.name }}">{{ cat.name }}
 	      </label> 
     	</div> -->
+
+    	<button class="btn btn-primary" ng-click="annoncesList.vu()" type="button" ng-init="annoncesList.notifications">
+		  Notifications <span class="badge">{{ annoncesList.notifications.length }}</span>
+		</button>
+		<div ng-repeat="notification in annoncesList.notifications">
+		  	<h4>{{ annoncesList.getUserById(notification.comment.owner).emails[0].address }} :</h4>
+		  	<p>{{ notification.comment.comment }}</p>
+		  	<p> {{ notification.annonce.name }} </p>
+		</div>
+
 	</div>
 	<div class="col-md-6">	
 		<!-- <ol class="breadcrumb">
@@ -71,11 +81,12 @@
 							  	 <p>{{ annonce.description }}</p>
 							  	<!-- <p><a href="#" class="btn btn-primary" role="button">Consulter</a> <a href="#" class="btn btn-default" role="button">Modifier</a></p> -->
 							 </div>							 
+						</div>						
+						<div class="well well-sm" ng-repeat="commentId in annonce.comments">
+							<h3><span class="glyphicon glyphicon-user"></span>{{ annoncesList.getUserById(annoncesList.getCommentById(commentId).owner).emails[0].address }}:</h3>
+							<p>{{ annoncesList.getCommentById(commentId).comment }}</p>
 						</div>
-						<!-- <div class="well" ng-repeat="comment in annoncesList.getCommentsByAnnonceId(annonce._id)">
-							{{ comment }}
-						</div> -->
-						<form>
+						<form ng-show="annoncesList.isLoggedIn">
 							<div class="form-group">      
 						      <textarea class="form-control" id="{{ annonce._id }}"  placeholder="Saisir un commentaire"></textarea>            
 						    </div>
@@ -85,6 +96,17 @@
 						</form>
 				  </div>				 
 			  </div>
+
+
+
+
+			  	<!-- <button type="button" class="btn btn-default" ng-click="annoncesList.isCollapsed = !annoncesList.isCollapsed">Toggle collapse</button>
+				<hr>
+				<div uib-collapse="annoncesList.isCollapsed">
+					<div class="well well-lg">Some content</div>
+				</div> -->
+
+
 
 
 			 <!--  <div class="media" dir-paginate="annonce in annoncesList.annonces | itemsPerPage:annoncesList.perPage" total-items="{{ annoncesList.countAnnonces() }}">
@@ -135,7 +157,7 @@
 	    <button class="btn btn-success" ng-click="annoncesList.openModal()">Publier une annonce</button>
 	  </div>
 	
-</div>
+
 
 
 <!-- selected : {{ annoncesList.categorie }} -->

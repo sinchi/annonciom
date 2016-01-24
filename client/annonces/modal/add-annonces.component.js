@@ -72,8 +72,7 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 							if(!this.newAnnonce.images){
 								this.newAnnonce.images = [];							
 							}
-							this.newAnnonce.images.push(image._id);
-						
+							this.newAnnonce.images.push(image._id);						
 					});
 				}
 			};
