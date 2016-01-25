@@ -2,19 +2,19 @@ Meteor.startup(function(){
 	if(Categories.find().count() === 0 && Annonces.find().count() > 0){
 		var categories = [
 			{				
-				_id: 'Telephone'
+				name: 'Telephone'
 			},
 			{
-				_id: 'Electronique'
+				name: 'Electronique'
 			},
 			{
-				_id: 'PC Portable'
+				name: 'PC Portable'
 			},
 			{
-				_id: 'PC Bureaux'
+				name: 'PC Bureaux'
 			},
 			{
-				_id: 'Tablette'
+				name: 'Tablette'
 			}
 
 		];
