@@ -33,13 +33,14 @@
 	      </label> 
     	</div> -->
 
-    	<button class="btn btn-primary" ng-click="annoncesList.vu()" type="button" ng-init="annoncesList.notifications">
-		  Notifications <span class="badge">{{ annoncesList.notifications.length }}</span>
+    	<button class="btn btn-primary"  type="button" ng-init="annoncesList.notifications">
+		  Notifications <span class="badge">{{ annoncesList.countNotifications }}</span>
 		</button>
-		<div ng-repeat="notification in annoncesList.notifications">
-		  	<h4>{{ annoncesList.getUserById(notification.comment.owner).emails[0].address }} :</h4>
-		  	<p>{{ notification.comment.comment }}</p>
-		  	<p> {{ notification.annonce.name }} </p>
+		<div ng-repeat="notification in annoncesList.notifications" ng-click="annoncesList.vu(notification.notification._id)">
+		  	<h4>commentaire de :{{ annoncesList.getUserById(notification.comment.owner).emails[0].address }} :</h4>
+		  	commentaire: <p>{{ notification.comment.comment }}</p>
+		  	<p>titre d'annonce:  {{ notification.annonce.name }} </p>
+		  	<p>vu :{{ notification.notification.vu }}</p>
 		</div>
 
 	</div>

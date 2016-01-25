@@ -43,17 +43,34 @@ angular.module('annoncio').directive('annoncesList',function(){
 					if(user && user !== null){
 							let notificationsIds =  user.notifications;
 							_.filter(notificationsIds, (notificationId) => {
-								let notification = Notifications.findOne({_id: notificationId, vu: false});
+								let notification = Notifications.findOne({_id: notificationId});
+
 								if(notification && notification !== null){
 									let comment = Comments.findOne(notification.commentId);
 									let annonce = Annonces.findOne(notification.annonceId);
-									wrapNotifications.push({comment, annonce});
+									wrapNotifications.push({comment, annonce, notification});
 								}
 								
 							});
 						}						
 
 					return wrapNotifications;
+				},
+				countNotifications: () => {
+					let count = 0;
+					let user = Meteor.users.findOne(Meteor.userId());
+					if(user && user !== null){
+							let notificationsIds =  user.notifications;
+							_.filter(notificationsIds, (notificationId) => {
+								let notification = Notifications.findOne({_id: notificationId, vu: false});
+
+								if(notification && notification !== null){
+									count ++;
+								}
+								
+							});
+							return count;
+						}
 				},
 				users: () => {
 					return Meteor.users.find({});
@@ -63,6 +80,8 @@ angular.module('annoncio').directive('annoncesList',function(){
 				}
 
 			});
+
+			
 
 			// this.getLastNotificationCommentForCurrentUser = () => {		
 
@@ -156,9 +175,9 @@ angular.module('annoncio').directive('annoncesList',function(){
 				return Comments.findOne({_id: commentId});
 			};	
 
-			this.vu = () => {
-
-			}
+			this.vu = (notificationId) => {
+				Meteor.call('vu', notificationId);
+			};
  			
 		}
 	}
