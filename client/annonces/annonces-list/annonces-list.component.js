@@ -10,7 +10,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 			this.category = '';
 			this.city = '';	
 			this.searchText = "";
-			this.perPage = '10';
+			this.perPage = '5';
 			this.page = "1";
 			this.sort = {
 				published: -1
