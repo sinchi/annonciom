@@ -33,14 +33,15 @@
 	      </label> 
     	</div> -->
 
-    	<button class="btn btn-primary"  type="button" ng-init="annoncesList.notifications">
+    	<button class="btn btn-primary" ng-click="annonceList.showNotification = !annonceList.showNotification"   type="button" ng-init="annoncesList.notifications">
 		  Notifications <span class="badge">{{ annoncesList.countNotifications }}</span>
 		</button>
-		<div ng-repeat="notification in annoncesList.notifications" ng-click="annoncesList.vu(notification.notification._id)">
-		  	<h4>commentaire de :{{ annoncesList.getUserById(notification.comment.owner).emails[0].address }} :</h4>
-		  	commentaire: <p>{{ notification.comment.comment }}</p>
-		  	<p>titre d'annonce:  {{ notification.annonce.name }} </p>
-		  	<p>vu :{{ notification.notification.vu }}</p>
+		<div ng-show="annonceList.showNotification" ng-repeat="notification in annoncesList.notifications | orderBy: 'notification.published'" ng-click="annoncesList.vu(notification.notification._id)">
+			<h1>{{ notification.annonce.name }} </h1>
+		  	<h2>{{ annoncesList.getUserById(notification.comment.owner).emails[0].address }} dit :</h2>
+		  	<p>{{ notification.comment.comment }}</p>		  	
+		  	<h3>vu :{{ notification.notification.vu }}</H3>
+		  	<h4>date: {{ notification.notification.published | date : 'medium' }}</h4>
 		</div>
 
 	</div>
@@ -82,11 +83,7 @@
 							  	 <p>{{ annonce.description }}</p>
 							  	<!-- <p><a href="#" class="btn btn-primary" role="button">Consulter</a> <a href="#" class="btn btn-default" role="button">Modifier</a></p> -->
 							 </div>							 
-						</div>						
-						<div class="well well-sm" ng-repeat="commentId in annonce.comments">
-							<h3><span class="glyphicon glyphicon-user"></span>{{ annoncesList.getUserById(annoncesList.getCommentById(commentId).owner).emails[0].address }}:</h3>
-							<p>{{ annoncesList.getCommentById(commentId).comment }}</p>
-						</div>
+						</div>	
 						<form ng-show="annoncesList.isLoggedIn">
 							<div class="form-group">      
 						      <textarea class="form-control" id="{{ annonce._id }}"  placeholder="Saisir un commentaire"></textarea>            
@@ -95,6 +92,13 @@
 						    	<button class="btn btn-primary" ng-click="annoncesList.addComment(annonce._id)">commenter</button>
 						    </div> 		
 						</form>
+						<button class="btn btn-info" ng-click="annoncesList.showComments = !annoncesList.showComments">afficher les commentaires </button>
+						<div class="comments" ng-show="annoncesList.showComments">
+							<list-comments comments="annonce.comments"></list-comments>
+						</div>	
+											
+						<!-- <div ng-show="annoncesList.showCommentsList" list-comments="{{ annonce.comments }}"></div -->					
+						
 				  </div>				 
 			  </div>
 

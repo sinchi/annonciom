@@ -16,13 +16,27 @@ angular.module('annoncio').directive('annoncesList',function(){
 				published: -1
 			};
 			this.newComment = {};
-			this.isCollapsed = false;			
+			this.isCollapsed = false;	
+			this.showNotification = false;	
+			this.comments = [];
+			this.showComments = false;
+
 
 		
 
 			this.helpers({
+				commentsObjects : () => {
+					let wrapComments = [];
+					_.filter(this.getReactively('comments'), (commentId) => {
+						let comment = Comments.findOne(commentId);
+						let owner = Meteor.users.findOne(comment.owner);
+						wrapComments.push({comment, owner});
+					});
+					return wrapComments;
+				},
 				annonces: () => {
-					return Annonces.find({}, {sort: this.getReactively('sort') });					
+					
+					return Annonces.find({}, {sort: this.getReactively('sort') });								
 				},
 				categories: () => {
 					return Categories.find({'parent': 'Informatique Et Multimedia'} || '');
@@ -35,7 +49,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 				},
 				isLoggedIn : () => {
 					return Meteor.userId();
-				},
+				},				
 				notifications: () => {
 
 					let wrapNotifications = [];
@@ -178,6 +192,16 @@ angular.module('annoncio').directive('annoncesList',function(){
 			this.vu = (notificationId) => {
 				Meteor.call('vu', notificationId);
 			};
+
+			this.comment = (commentId) => {
+				let wrapComment = {};
+				let comment = this.getCommentById(commentId);
+				let owner = this.getUserById(comment.owner);
+				wrapComment.comment = comment;
+				wrapComment.owner = owner;
+
+				return wrapComment;
+			}
  			
 		}
 	}

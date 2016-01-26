@@ -1,0 +1,5 @@
+<div class="well well-sm" ng-repeat="comment in listComments.comments | orderBy:'-comment.published'">	
+	<h3><span class="glyphicon glyphicon-user"></span>{{ comment.owner.emails[0].address }}:</h3>
+	<p>{{ comment.comment.comment }}</p>
+	<p>{{ comment.comment.published | date : 'medium'  }}</p>
+</div>

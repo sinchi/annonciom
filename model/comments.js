@@ -43,6 +43,7 @@ Meteor.methods({
 
 			notification.annonceId = annonceId;
 			notification.commentId = commentId;	
+			notification.published = new Date();
 			notification.vu = false;
 
 			let annonce = Annonces.findOne(annonceId);			
