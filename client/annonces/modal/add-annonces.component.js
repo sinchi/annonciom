@@ -42,9 +42,11 @@ angular.module('annoncio').directive('addAnnonceModal', function(){
 				this.newAnnonce.owner = Meteor.userId();
 				this.newAnnonce.public = true;
 
-				Annonces.insert(this.newAnnonce, (err, annonce)  => {
-					if(!err)
+				Annonces.insert(this.newAnnonce, (err, annonceId)  => {
+					if(!err){					
+						Meteor.call('generateNotification', this.getReactively('category'), annonceId);
 						console.log('added with success');
+					}						
 					else
 						console.log(err);
 				});

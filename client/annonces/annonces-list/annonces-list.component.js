@@ -21,9 +21,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 			this.comments = [];
 			this.showComments = false;
 
-
-		
-
+	
 			this.helpers({
 				commentsObjects : () => {
 					let wrapComments = [];
@@ -39,7 +37,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 					return Annonces.find({}, {sort: this.getReactively('sort') });								
 				},
 				categories: () => {
-					return Categories.find({'parent': 'Informatique Et Multimedia'} || '');
+					return Categories.find({});
 				},
 				cities: () => {
 					return Cities.find({});
@@ -66,6 +64,18 @@ angular.module('annoncio').directive('annoncesList',function(){
 								}
 								
 							});
+
+							notificationsIds =  user.notifications_category;
+							_.filter(notificationsIds, (notificationId) => {
+								let notification = Notifications.findOne({_id: notificationId});
+
+								if(notification && notification !== null){									
+									let annonce = Annonces.findOne(notification.annonceId);
+									wrapNotifications.push({annonce, notification});
+								}
+								
+							});
+
 						}						
 
 					return wrapNotifications;
