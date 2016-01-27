@@ -25,9 +25,17 @@ angular.module('annoncio').directive('annoncesList',function(){
 			
 
 	
-			this.helpers({					
+			this.helpers({	
+				
 				notifs: () => {
-					return Notifications.find({_id: {$in: this.getReactively('notificationsUser')}}, {sort:{published: -1}});
+					let user = Meteor.users.findOne(Meteor.userId());
+					if(user && user !== null)
+						return Notifications.find({_id: {$in: user.notifications}}, {sort:{published: -1}});					
+				},
+				nbrNotifs: () => {
+					let user = Meteor.users.findOne(Meteor.userId());
+					if(user && user !== null)
+						return Notifications.find({_id: {$in: user.notifications}, vu:false}, {sort:{published: -1}});
 				},
 				
 				comments: () => {
@@ -116,11 +124,6 @@ angular.module('annoncio').directive('annoncesList',function(){
 			// 		// return comment.comment;				
 			// };
 
-			this.showNots = () => {
-				this.notificationsUser = this.getUserById(Meteor.userId()).notifications;
-				console.log(this.notificationsUser);
-				console.log(this.notifs);
-			};
 			
 
 			this.getImage = (image_id) => {

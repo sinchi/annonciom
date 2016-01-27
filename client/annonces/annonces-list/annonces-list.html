@@ -111,7 +111,7 @@
 
 
 			  <button ng-click="annoncesList.notificationsUser = annoncesList.getUserById(annoncesList.currentUser).notifications">notifs</button>
-						
+							nombre : {{ (annoncesList.notifs | filter : {vu: false}).length }}
 						<div ng-repeat="n in annoncesList.notifs">
 							{{ n }}
 						</div>
