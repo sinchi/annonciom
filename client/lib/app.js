@@ -4,5 +4,6 @@ angular.module('annoncio', [
 	 'ui.bootstrap',
 	  'angularUtils.directives.dirPagination',
 	   'accounts.ui',
-	   'ngFileUpload'
+	   'ngFileUpload',
+	   'checklist-model'
 ]);

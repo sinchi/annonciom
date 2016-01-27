@@ -114,5 +114,6 @@ twbs:bootstrap@3.3.6
 ui@1.0.8
 underscore@1.0.4
 url@1.0.5
+veekungx:checklist-model@0.0.1
 webapp@1.2.3
 webapp-hashing@1.0.5

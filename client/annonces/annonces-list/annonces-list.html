@@ -92,18 +92,29 @@
 						    	<button class="btn btn-primary" ng-click="annoncesList.addComment(annonce._id)">commenter</button>
 						    </div> 		
 						</form>
-						<button class="btn btn-info" ng-click="annoncesList.showComments = !annoncesList.showComments">afficher les commentaires </button>
-						<div class="comments" ng-show="annoncesList.showComments">
-							<list-comments comments="annonce.comments"></list-comments>
-						</div>	
+						<button class="btn btn-info" ng-click="annoncesList.commentsId = annonce.comments">afficher les commentaires </button>
+						<!--  <div class="comments">
+							<list-comments comments="annoncesList.retrieveComment(annonce._id)"></list-comments>
+						</div> -->	 
+						<div class="well well-sm"  ng-repeat="comment in annoncesList.comments">
+							<h3><span class="glyphicon glyphicon-user"></span>{{ annoncesList.getUserById(comment.owner).emails[0].address }}:</h3>
+						<p>{{ comment.comment }}</p>
+						<p>{{ comment.published | date : 'medium'  }}</p>
+						</div>
+
 											
-						<!-- <div ng-show="annoncesList.showCommentsList" list-comments="{{ annonce.comments }}"></div -->					
+						<!-- <div ng-show="annoncesList.showCommentsList" list-comments="{{ annonce.comments }}"></div -->		
+
 						
 				  </div>				 
 			  </div>
 
 
-
+			  <button ng-click="annoncesList.notificationsUser = annoncesList.getUserById(annoncesList.currentUser).notifications">notifs</button>
+						
+						<div ng-repeat="n in annoncesList.notifs">
+							{{ n }}
+						</div>
 
 			  	<!-- <button type="button" class="btn btn-default" ng-click="annoncesList.isCollapsed = !annoncesList.isCollapsed">Toggle collapse</button>
 				<hr>
@@ -157,7 +168,7 @@
 	  <div>
 	  	<div class="row">
 	  		<p><button class="btn btn-success" ng-click="annoncesList.openModal()">Publier une annonce</button></p>
-	  		<p><button class="btn btn-info" ng-click="annoncesList.openModal()">Abonner à une Categorie</button></p>
+	  		<p><button class="btn btn-info" ng-click="annoncesList.openModalCategories()">Abonner à une Categorie</button></p>
 	  	</div>
 	  	
 	   <!--  <a href="#" class="thumbnail">

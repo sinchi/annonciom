@@ -20,24 +20,24 @@ angular.module('annoncio').directive('annoncesList',function(){
 			this.showNotification = false;	
 			this.comments = [];
 			this.showComments = false;
+			this.commentsId = [];
+			this.notificationsUser = [];
+			
 
 	
-			this.helpers({
-				commentsObjects : () => {
-					let wrapComments = [];
-					_.filter(this.getReactively('comments'), (commentId) => {
-						let comment = Comments.findOne(commentId);
-						let owner = Meteor.users.findOne(comment.owner);
-						wrapComments.push({comment, owner});
-					});
-					return wrapComments;
+			this.helpers({					
+				notifs: () => {
+					return Notifications.find({_id: {$in: this.getReactively('notificationsUser')}}, {sort:{published: -1}});
 				},
-				annonces: () => {
-					
+				
+				comments: () => {
+					return Comments.find({_id: {$in: this.getReactively('commentsId')}}, {sort: {published: -1}});
+				},
+				annonces: () => {					
 					return Annonces.find({}, {sort: this.getReactively('sort') });								
 				},
 				categories: () => {
-					return Categories.find({});
+					return Categories.find({'parent': 'Informatique Et Multimedia'} || '');
 				},
 				cities: () => {
 					return Cities.find({});
@@ -65,18 +65,17 @@ angular.module('annoncio').directive('annoncesList',function(){
 								
 							});
 
-							notificationsIds =  user.notifications_category;
-							_.filter(notificationsIds, (notificationId) => {
-								let notification = Notifications.findOne({_id: notificationId});
+						// 	notificationsIds =  user.notifications_category;
+						// 	_.filter(notificationsIds, (notificationId) => {
+						// 		let notification = Notifications.findOne({_id: notificationId});
 
-								if(notification && notification !== null){									
-									let annonce = Annonces.findOne(notification.annonceId);
-									wrapNotifications.push({annonce, notification});
-								}
+						// 		if(notification && notification !== null){									
+						// 			let annonce = Annonces.findOne(notification.annonceId);
+						// 			wrapNotifications.push({annonce, notification});
+						// 		}
 								
-							});
-
-						}						
+						// 	});
+						 }						
 
 					return wrapNotifications;
 				},
@@ -117,6 +116,11 @@ angular.module('annoncio').directive('annoncesList',function(){
 			// 		// return comment.comment;				
 			// };
 
+			this.showNots = () => {
+				this.notificationsUser = this.getUserById(Meteor.userId()).notifications;
+				console.log(this.notificationsUser);
+				console.log(this.notifs);
+			};
 			
 
 			this.getImage = (image_id) => {
@@ -154,6 +158,13 @@ angular.module('annoncio').directive('annoncesList',function(){
 				}
 				
 			};
+
+			this.openModalCategories = () => {
+				$modal.open({
+						template: '<abonnement-categories-modal></abonnement-categories-modal>',
+						animation: true
+					});
+			};
 						
 
 			this.getParentOfCategory = (cat) => {				
@@ -189,6 +200,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 					this.newComment.comment = comment;	
 					
 					Meteor.call('addComment', this.newComment, annonceId);
+					
 				}else{
 					console.log('tu dois être authentifier pour faire un commentaire !');
 				}
@@ -203,15 +215,14 @@ angular.module('annoncio').directive('annoncesList',function(){
 				Meteor.call('vu', notificationId);
 			};
 
-			this.comment = (commentId) => {
-				let wrapComment = {};
-				let comment = this.getCommentById(commentId);
-				let owner = this.getUserById(comment.owner);
-				wrapComment.comment = comment;
-				wrapComment.owner = owner;
-
-				return wrapComment;
-			}
+			// this.retrieveComment = (annonceId) => {
+			// 	_.filter(this.annonces, (annonce) => {
+			// 		if(annonce._id === annonceId){						
+			// 			this.commentsId = annonce.comments						
+			// 		}
+			// 	});
+			// 	return this.comments;
+			// };
  			
 		}
 	}
