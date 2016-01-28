@@ -15,10 +15,6 @@ Comments.allow({
 	}
 });
 
-let getCommentOwner = function(commentId){
-	return Comments.findOne(commentId).owner;
-}
-
 Meteor.methods({
 
 	addComment: function(comment, annonceId){
@@ -29,61 +25,97 @@ Meteor.methods({
 		// 
 
 		Comments.insert(comment, (err, commentId) => {
+			let comments = Comments.find({annonceId: annonceId});
+			let comment = Comments.findOne(commentId);
+			let annonce = Annonces.findOne(annonceId);
+			if(comments.length <= 1 && comment.owner == annonce.owner){
 
-			// Ajouter l'id du commentaire retourné (commentId) dans le tableau comments
-			// de l'annonce 
+			}else{
+				let notification = {};
 
-			Annonces.update(annonceId , {
-				$addToSet: { comments : commentId }
-			});
+				notification.annonce = annonce;
+				notification.comment = comment;	
+				notification.published = new Date();
+				notification.vu = false;
+
+				Notifications.insert(notification, (notificationId) => {
+					_.filter(comments, (comment) => {
+						if(comment && comment !== null){
+							let userId = comment.owner;
+							if(userId && userId !== annonce.owner){
+								console.log('not equal owner');
+									Meteor.users.update(userId, {
+									$addToSet: {notifications: notificationId}
+								});
+							}		
+						}
+							
+
+					});
+				});
+			}
+
+			
 
 			// Générer une notifiacation pour chaque ajout d'un commentaire
 
-			let notification = {};
+			
 
-			notification.annonceId = annonceId;
-			notification.commentId = commentId;	
-			notification.published = new Date();
-			notification.vu = false;
+			// Notifications.insert(notification, (err, notificationId) => {
+			
 
-			let annonce = Annonces.findOne(annonceId);			
+			// console.log(comments.maps);
+				
+			// 		// vérifier si l'id de créateur de l'annonce 
+			// 			// est figuré dans la listes des users qui sont commentés sur l'annonce
+			// 			let exists = false;						
+			// 			_.filter(comments, (comment) => {
+							
+			// 				if(comment && comment !== null){
+			// 					console.log("comment is : " +comment);
+			// 					let userId = comment.owner;
+			// 					if(userId && userId !== null && userId === annonce.owner){
+			// 						console.log("oui exists");
+			// 						exists = true;
+			// 						return;
+			// 					}
+			// 				}
+								
 
-			Notifications.insert(notification, (err, notificationId) => {	
+			// 			});
 
-						// vérifier si l'id de créateur de l'annonce 
-						// est figuré dans la listes des users qui sont commentés sur l'annonce
-						let exists = false;						
-						_.filter(annonce.comments, (commentId) => {
-							let userId = getCommentOwner(commentId);
-							if(userId === annonce.owner){
-								exists = true;
-								return;
-							}								
-						});
+			// 			// s'il n'existe pas alors ajoute le manuellement avec cette methode
+			// 			// exemple s'il a pas encore commenté sur l'annonce qui l'a créer lui même
 
-						// s'il n'existe pas alors ajoute le manuellement avec cette methode
-						// exemple s'il a pas encore commenté sur l'annonce qui l'a créer lui même
+			// 			if(!exists){
+			// 				console.log("non n'exists pas");
+			// 				Meteor.users.update(annonce.owner, {
+			// 					$addToSet: {notifications: notificationId}
+			// 				});
+			// 			}
 
-						if(!exists){
-							Meteor.users.update(annonce.owner, {
-								$addToSet: {notifications: notificationId}
-							});
-						}
-
-						// Et continuer le traitement des autres users 
-						// qui figurent leurs ids déja dans la liste des commentaires 
+			// 			// Et continuer le traitement des autres users 
+			// 			// qui figurent leurs ids déja dans la liste des commentaires 
 
 				
-					_.filter(annonce.comments, (commentId) => {
-						let userId = getCommentOwner(commentId);
-						if(userId && userId !== this.userId){
-								Meteor.users.update(userId, {
-								$addToSet: {notifications: notificationId}
-							});
-						}					
-					});
+			// 		_.filter(comments, (comment) => {
+			// 			if(comment && comment !== null){
+			// 				let userId = comment.owner;
+			// 				if(userId && userId !== annonce.owner){
+			// 					console.log('not equal owner');
+			// 						Meteor.users.update(userId, {
+			// 						$addToSet: {notifications: notificationId}
+			// 					});
+			// 				}		
+			// 			}
+							
+
+			// 		});
+				
+
+						
 									
-			});				
+			// });				
 		});	
 	}
 

@@ -27,20 +27,19 @@ angular.module('annoncio').directive('annoncesList',function(){
 	
 			this.helpers({	
 				
-				notifs: () => {
-					let user = Meteor.users.findOne(Meteor.userId());
-					if(user && user !== null)
-						return Notifications.find({_id: {$in: user.notifications}}, {sort:{published: -1}});					
-				},
-				nbrNotifs: () => {
-					let user = Meteor.users.findOne(Meteor.userId());
-					if(user && user !== null)
-						return Notifications.find({_id: {$in: user.notifications}, vu:false}, {sort:{published: -1}});
-				},
-				
-				comments: () => {
-					return Comments.find({_id: {$in: this.getReactively('commentsId')}}, {sort: {published: -1}});
-				},
+				// notifs: () => {
+				// 	let user = Meteor.users.findOne(Meteor.userId());
+				// 	if(user && user !== null)
+				// 		return Notifications.find({_id: {$in: user.notifications}}, {sort:{published: -1}});					
+				// },
+				// nbrNotifs: () => {
+				// 	let user = Meteor.users.findOne(Meteor.userId());
+				// 	if(user && user !== null)
+				// 		return Notifications.find({_id: {$in: user.notifications}, vu:false}, {sort:{published: -1}});
+				// },		
+				// comments: () => {
+				// 	return Comments.find({_id: {$in: this.getReactively('commentsId')}}, {sort: {published: -1}});
+				// },
 				annonces: () => {					
 					return Annonces.find({}, {sort: this.getReactively('sort') });								
 				},
@@ -55,7 +54,7 @@ angular.module('annoncio').directive('annoncesList',function(){
 				},
 				isLoggedIn : () => {
 					return Meteor.userId();
-				},				
+				},
 				notifications: () => {
 
 					let wrapNotifications = [];
@@ -200,7 +199,8 @@ angular.module('annoncio').directive('annoncesList',function(){
 					
 					this.newComment.owner = Meteor.user()._id;
 					this.newComment.published = new Date();	
-					this.newComment.comment = comment;	
+					this.newComment.comment = comment;
+					this.newComment.annonceId = annonceId;
 					
 					Meteor.call('addComment', this.newComment, annonceId);
 					

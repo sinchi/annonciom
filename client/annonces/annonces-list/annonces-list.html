@@ -33,7 +33,7 @@
 	      </label> 
     	</div> -->
 
-    	<button class="btn btn-primary" ng-click="annonceList.showNotification = !annonceList.showNotification"   type="button" ng-init="annoncesList.notifications">
+    	<!-- <button class="btn btn-primary" ng-click="annonceList.showNotification = !annonceList.showNotification"   type="button" ng-init="annoncesList.notifications">
 		  Notifications <span class="badge">{{ annoncesList.countNotifications }}</span>
 		</button>
 		<div ng-show="annonceList.showNotification" ng-repeat="notification in annoncesList.notifications | orderBy: 'notification.published'" ng-click="annoncesList.vu(notification.notification._id)">
@@ -42,7 +42,7 @@
 		  	<p>{{ notification.comment.comment }}</p>		  	
 		  	<h3>vu :{{ notification.notification.vu }}</H3>
 		  	<h4>date: {{ notification.notification.published | date : 'medium' }}</h4>
-		</div>
+		</div> -->
 
 	</div>
 	<div class="col-md-6">	
@@ -92,15 +92,15 @@
 						    	<button class="btn btn-primary" ng-click="annoncesList.addComment(annonce._id)">commenter</button>
 						    </div> 		
 						</form>
-						<button class="btn btn-info" ng-click="annoncesList.commentsId = annonce.comments">afficher les commentaires </button>
+						<!-- <button class="btn btn-info" ng-click="annoncesList.commentsId = annonce.comments">afficher les commentaires </button> -->
 						<!--  <div class="comments">
 							<list-comments comments="annoncesList.retrieveComment(annonce._id)"></list-comments>
 						</div> -->	 
-						<div class="well well-sm"  ng-repeat="comment in annoncesList.comments">
+						<!-- <div class="well well-sm"  ng-repeat="comment in annoncesList.comments">
 							<h3><span class="glyphicon glyphicon-user"></span>{{ annoncesList.getUserById(comment.owner).emails[0].address }}:</h3>
 						<p>{{ comment.comment }}</p>
 						<p>{{ comment.published | date : 'medium'  }}</p>
-						</div>
+						</div> -->
 
 											
 						<!-- <div ng-show="annoncesList.showCommentsList" list-comments="{{ annonce.comments }}"></div -->		
@@ -110,11 +110,11 @@
 			  </div>
 
 
-			  <button ng-click="annoncesList.notificationsUser = annoncesList.getUserById(annoncesList.currentUser).notifications">notifs</button>
+			<!--   <button ng-click="annoncesList.notificationsUser = annoncesList.getUserById(annoncesList.currentUser).notifications">notifs</button>
 							nombre : {{ (annoncesList.notifs | filter : {vu: false}).length }}
 						<div ng-repeat="n in annoncesList.notifs">
 							{{ n }}
-						</div>
+						</div> -->
 
 			  	<!-- <button type="button" class="btn btn-default" ng-click="annoncesList.isCollapsed = !annoncesList.isCollapsed">Toggle collapse</button>
 				<hr>
