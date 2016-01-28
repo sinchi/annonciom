@@ -25,35 +25,73 @@ Meteor.methods({
 		// 
 
 		Comments.insert(comment, (err, commentId) => {
-			let comments = Comments.find({annonceId: annonceId});
+			let comments = Comments.find({"annonceId": annonceId});
 			let comment = Comments.findOne(commentId);
 			let annonce = Annonces.findOne(annonceId);
-			if(comments.length <= 1 && comment.owner == annonce.owner){
 
-			}else{
-				let notification = {};
+			console.log('commentId ' + commentId);
+			console.log('annonceId ' + annonceId);
+			console.log('taille comments ' + comments.count());
+			let autre = false;
+			comments.forEach((comm)=>{				
+				if(comm && comm !== null){
+					console.log("comment boucle : " +comm.comment);
+					if(comm.owner !== annonce.owner){
+						autre = true;
+						return;
+					}
+				}
+			});
 
-				notification.annonce = annonce;
-				notification.comment = comment;	
-				notification.published = new Date();
-				notification.vu = false;
+			if(comment.owner === annonce.owner && !autre)
+				console.log('je dois pas recevoir la notification');
+			else if(comment.owner !== annonce.owner){
+				console.log('comment owner: '+ comment.owner);
+				console.log('annonce owner: '+ annonce.owner);
+				// let notification = {};
 
-				Notifications.insert(notification, (notificationId) => {
-					_.filter(comments, (comment) => {
-						if(comment && comment !== null){
-							let userId = comment.owner;
-							if(userId && userId !== annonce.owner){
-								console.log('not equal owner');
-									Meteor.users.update(userId, {
-									$addToSet: {notifications: notificationId}
-								});
-							}		
-						}
+				// notification.annonce = annonce;
+				// notification.comment = comment;	
+				// notification.published = new Date();
+				// notification.vu = false;
+
+				// Notifications.insert(notification, (err, notificationId) => {
+				// 	comments.forEach((comm) => {
+				// 		if(comm && comm !== null){
+				// 			console.log("comment boucle : " +comm);
+				// 			console.log("notificationId "+notificationId);
+							
+				// 				Meteor.users.update(comm.owner, {
+				// 					$addToSet: {notifications: notificationId}
+				// 				});
+							
+				// 		}
+				// 	});
+				// });
+				console.log('je recoi normalement la notification');
+			}
+
+
+
+			// if(comments.count() > 1 || comment.owner !== annonce.owner){
+			
+
+			// 	Notifications.insert(notification, (notificationId) => {
+			// 		_.filter(comments, (comment) => {
+			// 			if(comment && comment !== null){
+			// 				let userId = comment.owner;
+			// 				if(userId && userId !== annonce.owner){
+			// 					console.log('not equal owner');
+			// 						Meteor.users.update(userId, {
+			// 						$addToSet: {notifications: notificationId}
+			// 					});
+			// 				}		
+			// 			}
 							
 
-					});
-				});
-			}
+			// 		});
+			// 	});
+			// }
 
 			
 

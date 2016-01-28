@@ -35,6 +35,6 @@ Meteor.publish('cities', function(){
 	return Cities.find({});
 });
 
-Meteor.publish('notifications', function(){
-	return Notifications.find({});
+Meteor.publish('comments', function(){
+	return Comments.find({});
 });
